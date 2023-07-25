@@ -1,9 +1,9 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { NavLink } from "react-router-dom";
-import {adddata,updatedata,deldata} from './context/ContextProvider';
+import { adddata, updatedata, deldata } from './context/ContextProvider';
 
 
 
@@ -15,9 +15,9 @@ const Home = () => {
   const [getuserdata, setUserdata] = useState([]);
   console.log(getuserdata);
 
-  const {udata,setUdata}= useContext(adddata);
-  const {updata, setUpdata} = useContext(updatedata);
-  const {dltdata,setDLTdata} = useContext(deldata); 
+  const { udata, setUdata } = useContext(adddata);
+  const { updata, setUpdata } = useContext(updatedata);
+  const { dltdata, setDLTdata } = useContext(deldata);
 
 
   const getdata = async (e) => {
@@ -49,65 +49,66 @@ const Home = () => {
   }, [])
 
 
-  const  deleteuser = async(id)=>{
-        
-    const res2 = await fetch(`/deleteuser/${id}`,{
-      method:"DELETE",
-      headers:{
-        "Content-Type":"application/json"
+  const deleteuser = async (id) => {
+
+    const res2 = await fetch(`/deleteuser/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
       }
     });
     const deletedata = await res2.json();
     console.log(deletedata);
 
-    if(res2.status === 422 || !deletedata){
+    if (res2.status === 422 || !deletedata) {
       console.log("error");
-    }else{
+    } else {
       console.log("user deleted");
       setDLTdata(deletedata);
       getdata();
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     deleteuser();
-  },[]) 
+  }, [])
 
 
 
 
   return (
 
-     <>
-{
-  udata ?
-  <>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong>{udata.name}</strong> added successfully!
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-  </> : ""
-}
+    <>
+      <div style={{ height: '50px' }}>
+        {
+          udata ?
+            <>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{udata.name}</strong> added successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </> : ""
+        }
 
-{
-  updata ?
-  <>
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-  <strong> {updata.name}</strong> updated successfully!
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>  
-  </> : ""
-}
+        {
+          updata ?
+            <>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong> {updata.name}</strong> updated successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </> : ""
+        }
 
-{
-  dltdata ?
-  <>
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-  <strong> {dltdata.name} </strong> deleted  successfully!
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>  
-  </> : ""
-}
-
+        {
+          dltdata ?
+            <>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong> {dltdata.name} </strong> deleted  successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            </> : ""
+        }
+      </div>
 
 
       <div className="mt-5">
